@@ -10,6 +10,13 @@
             font-family: "Open Sans", sans-serif;
             font-size: 12px;
         }
+
+        div {
+            font-family: "Open Sans", sans-serif;
+            font-size: 12px;
+            color: gold;
+            background-color: black;
+        }
     </style>
 </head>
 
@@ -30,6 +37,14 @@
                 .attr("width", 150)
                 .attr("height", 175)
 
+
+            const tooltip = d3.select('body')
+                .append('div')
+                .style('position', 'absolute')
+                .style('z-index', '10')
+                .style('visibility', 'hidden')
+
+            const formatText = d => `${d.city}: ${d.rats}`
             svg.selectAll("rect")
                 .data(ratData)
                 .enter()
@@ -39,6 +54,13 @@
                 .attr("width", (x_axisLength / ratData.length) - 1)
                 .attr("height", d => yScale(d.rats))
                 .attr("fill", "darkslategray")
+                .on("mouseover", d => tooltip.style('visibility', 'visible').text(formatText(d)))
+                .on("mousemove", d => {
+                    tooltip.style('top', (d3.event.pageY - 10) + "px")
+                        .style('left', (d3.event.pageX + 10) + "px")
+                        .text(formatText(d))
+                })
+                .on("mouseout", d => tooltip.style('visibility', 'hidden').text(formatText(d)))
 
             svg.append('line')
                 .attr('x1', start)
@@ -61,6 +83,7 @@
                 .attr('text-anchor', 'end')
                 .text('Number of Rats')
                 .attr('transform', 'translate(20,20) rotate(-90)')
+
         }
         d3.csv('rat-data.csv', (d) => {
             return {
