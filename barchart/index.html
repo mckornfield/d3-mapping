@@ -17,44 +17,42 @@
     <script>
         const ratData = [40, 70, 60, 20, 40, 100, 60];
         const maxValue = d3.max(ratData, d => +d)
-        const x_axisLength = 100;
-        const y_axisLength = 100;
+        const x_axisLength = 150;
+        const y_axisLength = 175;
         const yScale = d3.scaleLinear()
             .domain([0, maxValue])
             .range([0, y_axisLength])
-        const w = 150;
-        const h = 175;
         const start = 30;
 
         // Create SVG
         const svg = d3.selectAll("body")
             .append("svg")
-            .attr("width", w)
-            .attr("height", h)
+            .attr("width", x_axisLength)
+            .attr("height", y_axisLength)
 
         svg.selectAll("rect")
             .data(ratData)
             .enter()
             .append("rect")
             .attr("x", (d, i) => i * (x_axisLength / ratData.length) + start)
-            .attr("y", d => h - yScale(d)) // From the bottom instead
+            .attr("y", d => y_axisLength - yScale(d)) // From the bottom instead
             .attr("width", (x_axisLength / ratData.length) - 1)
             .attr("height", d => yScale(d))
             .attr("fill", "darkslategray")
 
         svg.append('line')
             .attr('x1', start)
-            .attr('y1', 75)
+            .attr('y1', 0)
             .attr('x2', start)
-            .attr('y2', h)
+            .attr('y2', y_axisLength)
             .attr('stroke-width', 2)
             .attr('stroke', 'black')
 
         svg.append('line')
             .attr('x1', start)
-            .attr('y1', h)
+            .attr('y1', y_axisLength)
             .attr('x2', x_axisLength)
-            .attr('y2', h)
+            .attr('y2', y_axisLength)
             .attr('stroke-width', 2)
             .attr('stroke', 'black')
 
@@ -62,7 +60,7 @@
             .attr('class', 'y label')
             .attr('text-anchor', 'end')
             .text('Number of Rats')
-            .attr('transform', 'translate(20,80) rotate(-90)')
+            .attr('transform', 'translate(20,20) rotate(-90)')
     </script>
 </body>
 
