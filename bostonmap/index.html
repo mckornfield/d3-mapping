@@ -2,12 +2,43 @@
 <html>
 
 <head>
+    <!-- From http://duspviz.mit.edu/d3-workshop/mapping-data-with-d3/ -->
     <title>Mapping with d3</title>
     <script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <script src="data/boston_neighborhoods.json"></script>
+    <script src="data/boston_rodents.json"></script>
+    <style>
+        .incident {
+            fill: red;
+        }
+
+        body {
+            position: absolute;
+            font-family: "Proxima Nova", "Montserrat", sans-serif;
+        }
+
+        h1,
+        h2 {
+            position: absolute;
+            left: 10px;
+            font-size: 1.3em;
+            font-weight: 100;
+        }
+
+        h2 {
+            top: 30px;
+            font-size: 1em;
+        }
+
+        .hover {
+            fill: yellow;
+        }
+    </style>
 </head>
 
 <body>
+    <h1>Rodent Incidents in Boston</h1>
+    <h2></h2>
     <script>
         const width = 700;
         const height = 580;
@@ -32,7 +63,28 @@
             .attr('fill', "#ccc")
             .attr('stroke', "#333")
             .attr('d', geoPath)
+        const rodents = svg.append("g")
+        rodents.selectAll("path")
+            .data(rodents_json.features)
+            .enter()
+            .append('path')
+            .attr('fill', "#900")
+            .attr('stroke', "#999")
+            .attr('d', geoPath)
+            .attr('class', 'incident')
+            .on('mouseover', function (d) {
+                d3.select('h2').text(d.properties.LOCATION_STREET_NAME)
+                d3.select(this).attr('class', 'incident hover')
+            })
+            .on('mouseout', function (d) {
+                d3.select('h2').text('');
+                d3.select(this).attr('class', 'incident')
+            })
     </script>
+    <div id="sliderContainer">
+        <input id="timeslide" type="range" min="0" max="11" value="0" step="1">
+        <span id="range">January</span>
+    </div>
 </body>
 
 </html>
