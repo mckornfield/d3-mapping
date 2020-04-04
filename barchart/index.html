@@ -5,6 +5,12 @@
     <!-- Following http://duspviz.mit.edu/d3-workshop/intro-to-d3/ -->
     <title>i'm learning d3</title>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+    <style>
+        text {
+            font-family: "Open Sans", sans-serif;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,6 +52,11 @@
             .attr('stroke-width', 2)
             .attr('stroke', 'black')
 
+        svg.append('text')
+            .attr('class', 'y label')
+            .attr('text-anchor', 'end')
+            .text('Number of Rats')
+            .attr('transform', 'translate(20,20) rotate(-90)')
     </script>
 </body>
 
