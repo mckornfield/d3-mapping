@@ -8,14 +8,20 @@
     <style>
         text {
             font-family: "Open Sans", sans-serif;
-            font-size: 16px;
+            font-size: 12px;
         }
     </style>
 </head>
 
 <body>
     <script>
-        const ratData = [40, 190, 30, 60, 20];
+        const ratData = [40, 70, 60, 20, 40, 100, 60];
+        const maxValue = d3.max(ratData, d => +d)
+        const x_axisLength = 100;
+        const y_axisLength = 100;
+        const yScale = d3.scaleLinear()
+            .domain([0, maxValue])
+            .range([0, y_axisLength])
         const w = 150;
         const h = 175;
         const start = 30;
@@ -30,10 +36,10 @@
             .data(ratData)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => i * 25 + start)
-            .attr("y", d => h - d) // From the bottom instead
-            .attr("width", 20)
-            .attr("height", d => d)
+            .attr("x", (d, i) => i * (x_axisLength / ratData.length) + start)
+            .attr("y", d => h - yScale(d)) // From the bottom instead
+            .attr("width", (x_axisLength / ratData.length) - 1)
+            .attr("height", d => yScale(d))
             .attr("fill", "darkslategray")
 
         svg.append('line')
@@ -47,7 +53,7 @@
         svg.append('line')
             .attr('x1', start)
             .attr('y1', h)
-            .attr('x2', w)
+            .attr('x2', x_axisLength)
             .attr('y2', h)
             .attr('stroke-width', 2)
             .attr('stroke', 'black')
@@ -56,7 +62,7 @@
             .attr('class', 'y label')
             .attr('text-anchor', 'end')
             .text('Number of Rats')
-            .attr('transform', 'translate(20,20) rotate(-90)')
+            .attr('transform', 'translate(20,80) rotate(-90)')
     </script>
 </body>
 
