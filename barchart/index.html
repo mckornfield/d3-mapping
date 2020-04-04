@@ -7,18 +7,25 @@
 </head>
 
 <body>
-    <svg width="160" height=180>
-        <rect x="30" width="20" fill="steelblue"></rect>
-        <rect x="55" width="20" fill="steelblue"></rect>
-        <rect x="80" width="20" fill="steelblue"></rect>
-        <rect x="105" width="20" fill="steelblue"></rect>
-        <rect x="130" width="20" fill="steelblue"></rect>
-    </svg>
     <script>
         const ratData = [40, 190, 30, 60, 20];
-        d3.selectAll("rect")
+        const w = 150;
+        const h = 175;
+
+        // Create SVG
+        const svg = d3.selectAll("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+        svg.selectAll("rect")
             .data(ratData)
-            .attr("height", d => d);
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => i * 25 + 30)
+            .attr("y", 10)
+            .attr("width", 20)
+            .attr("height", d => d)
+            .attr("fill", "red")
     </script>
 </body>
 
