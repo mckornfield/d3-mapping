@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <!-- Following http://duspviz.mit.edu/d3-workshop/intro-to-d3/ -->
     <title>i'm learning d3</title>
     <script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
 </head>
@@ -11,21 +12,40 @@
         const ratData = [40, 190, 30, 60, 20];
         const w = 150;
         const h = 175;
+        const start = 30;
 
         // Create SVG
         const svg = d3.selectAll("body")
             .append("svg")
             .attr("width", w)
             .attr("height", h)
+
         svg.selectAll("rect")
             .data(ratData)
             .enter()
             .append("rect")
-            .attr("x", (d, i) => i * 25 + 30)
-            .attr("y", 10)
+            .attr("x", (d, i) => i * 25 + start)
+            .attr("y", d => h - d) // From the bottom instead
             .attr("width", 20)
             .attr("height", d => d)
-            .attr("fill", "red")
+            .attr("fill", "darkslategray")
+
+        svg.append('line')
+            .attr('x1', start)
+            .attr('y1', 75)
+            .attr('x2', start)
+            .attr('y2', h)
+            .attr('stroke-width', 2)
+            .attr('stroke', 'black')
+
+        svg.append('line')
+            .attr('x1', start)
+            .attr('y1', h)
+            .attr('x2', w)
+            .attr('y2', h)
+            .attr('stroke-width', 2)
+            .attr('stroke', 'black')
+
     </script>
 </body>
 
